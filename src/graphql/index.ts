@@ -1,5 +1,8 @@
 import { gql } from "apollo-server";
 
+import { clientTypeDefs } from "./typeDefs";
+import { clientResolvers } from "./resolvers";
+
 const rootTypeDefs = gql`
   type Query {
     _empty: Boolean
@@ -12,5 +15,5 @@ const rootResolvers = {
   },
 };
 
-export const typeDefs = [rootTypeDefs];
-export const resolvers = [rootResolvers];
+export const typeDefs = [rootTypeDefs, clientTypeDefs];
+export const resolvers = [rootResolvers, clientResolvers];
