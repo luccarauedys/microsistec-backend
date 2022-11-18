@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const AddressSchema = new Schema({
-  cep: {
+  zipCode: {
     type: String,
     lowercase: true,
     required: true,

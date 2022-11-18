@@ -10,16 +10,27 @@ export const clientTypeDefs = gql`
     id: ID!
     name: String!
     contacts: [Contact!]!
-    # properties: [Property!]!
+    properties: [Property!]!
   }
 
   type Contact {
-    type: ContactTypeEnum!
+    type: ContactType!
     contact: String!
   }
 
-  enum ContactTypeEnum {
+  enum ContactType {
     telefone
     email
+  }
+
+  input ContactInput {
+    type: ContactType
+    contact: String
+  }
+
+  input ClientInput {
+    id: ID
+    name: String
+    contacts: [ContactInput]
   }
 `;
