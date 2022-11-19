@@ -1,3 +1,5 @@
+// Interfaces
+
 interface SearchPropertiesArgs {
   input: {
     type?: "casa" | "apartamento";
@@ -12,9 +14,16 @@ interface SearchPropertiesArgs {
   };
 }
 
+// Queries
+
 const properties = async (_: any, args: SearchPropertiesArgs) => {
+  // TODO: Implementar lógica para buscar imóveis
   return [];
 };
+
+// Mutations
+
+// Resolvers
 
 export const propertyResolvers = {
   Query: { properties },

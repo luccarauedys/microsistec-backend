@@ -6,6 +6,10 @@ export const clientTypeDefs = gql`
     clients(name: String): [Client!]!
   }
 
+  extend type Mutation {
+    createClient(input: ClientInput!): Client!
+  }
+
   type Client {
     id: ID!
     name: String!
@@ -29,8 +33,7 @@ export const clientTypeDefs = gql`
   }
 
   input ClientInput {
-    id: ID
-    name: String
-    contacts: [ContactInput]
+    name: String!
+    contacts: [ContactInput]!
   }
 `;
