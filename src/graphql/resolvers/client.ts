@@ -1,6 +1,5 @@
+import { ValidationError } from "apollo-server";
 import { Client } from "../../models/client";
-
-// Interfaces
 
 interface CreateClientArgs {
   input: {
@@ -9,26 +8,25 @@ interface CreateClientArgs {
   };
 }
 
-// Queries
-
 const client = async (_: any, { id }: { id: string }) => {
   return await Client.findById(id);
 };
 
 const clients = async (_: any, { name = "" }: { name: string }) => {
-  const regex = new RegExp(name);
+  const filter = "^" + name.toLowerCase();
+  const regex = new RegExp(filter);
   return await Client.find({ name: regex });
 };
 
-// Mutations
-
 const createClient = async (_: any, { input: { name, contacts } }: CreateClientArgs) => {
+  if (name.length === 0) throw new ValidationError("name is required");
+  if (contacts.length === 0) throw new ValidationError("at least one contact must be provided");
+
   const client = new Client({ name, contacts });
   await client.save();
+
   return client;
 };
-
-// Resolvers
 
 export const clientResolvers = {
   Query: { client, clients },

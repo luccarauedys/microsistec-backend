@@ -39,7 +39,7 @@ const PropertySchema = new Schema({
     type: AddressSchema,
     required: true,
   },
-  owners: [
+  ownersIds: [
     {
       type: Schema.Types.ObjectId,
       ref: "Client",

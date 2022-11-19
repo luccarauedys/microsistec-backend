@@ -5,6 +5,10 @@ export const propertyTypeDefs = gql`
     properties(input: PropertiesInput): [Property!]!
   }
 
+  extend type Mutation {
+    createProperty(input: CreatePropertyInput!): Property!
+  }
+
   type Property {
     id: ID!
     type: PropertyType!
@@ -37,5 +41,11 @@ export const propertyTypeDefs = gql`
     type: PropertyType
     address: AddressInput
     ownersIds: [String]
+  }
+
+  input CreatePropertyInput {
+    type: PropertyType!
+    address: AddressInput!
+    ownersIds: [String]!
   }
 `;

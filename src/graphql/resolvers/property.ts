@@ -1,6 +1,6 @@
-// Interfaces
+import { Property } from "../../models/property";
 
-interface SearchPropertiesArgs {
+interface PropertiesArgs {
   input: {
     type?: "casa" | "apartamento";
     address?: {
@@ -14,17 +14,18 @@ interface SearchPropertiesArgs {
   };
 }
 
-// Queries
-
-const properties = async (_: any, args: SearchPropertiesArgs) => {
+const properties = async (_: any, args: PropertiesArgs) => {
   // TODO: Implementar lógica para buscar imóveis
   return [];
 };
 
-// Mutations
-
-// Resolvers
+const createProperty = async (_: any, { input: { type, address, ownersIds } }: PropertiesArgs) => {
+  const property = new Property({ type, address, ownersIds });
+  await property.save();
+  return property;
+};
 
 export const propertyResolvers = {
   Query: { properties },
+  Mutation: { createProperty },
 };

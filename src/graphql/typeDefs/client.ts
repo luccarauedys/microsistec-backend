@@ -28,12 +28,12 @@ export const clientTypeDefs = gql`
   }
 
   input ContactInput {
-    type: ContactType
-    contact: String
+    type: ContactType!
+    contact: String!
   }
 
   input ClientInput {
     name: String!
-    contacts: [ContactInput]!
+    contacts: [ContactInput!]!
   }
 `;
