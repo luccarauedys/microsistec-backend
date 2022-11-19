@@ -1,11 +1,23 @@
-import { Property } from "../../models/property";
-import { IProperty } from "../../interfaces/property";
 import { ValidationError } from "apollo-server";
+import { Property } from "../../models/property";
 import { Client } from "../../models/client";
+import { IAddress, IProperty } from "../../interfaces/property";
 
-const properties = async (_: any, { type = "" }: { type: "casa" | "apartamento" | "" }) => {
+const properties = async (_: any, { type }: { type: string }) => {
   if (type) return await Property.find({ type });
   return await Property.find();
+};
+
+const propertiesByAddress = async (_: any, { address }: { address: IAddress }) => {
+  let addressQuery: any = {};
+
+  for (let [key, value] of Object.entries(address)) {
+    const regex = new RegExp(value);
+    addressQuery[`address.${key}`] = regex;
+    // ex: { 'address.city': 'salvador' }
+  }
+
+  return await Property.find({ ...addressQuery });
 };
 
 const createProperty = async (_: any, { input }: { input: IProperty }) => {
@@ -20,7 +32,7 @@ const createProperty = async (_: any, { input }: { input: IProperty }) => {
 };
 
 export const propertyResolvers = {
-  Query: { properties },
+  Query: { properties, propertiesByAddress },
 
   Mutation: { createProperty },
 

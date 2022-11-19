@@ -1,12 +1,14 @@
 export interface IProperty {
   type: "casa" | "apartamento";
-  address: {
-    state: string;
-    city: string;
-    street: string;
-    number: string;
-    complement: string;
-    zipCode: string;
-  };
+  address: IAddress;
   ownersIds: string[];
+}
+
+export interface IAddress {
+  state: string;
+  city: string;
+  street: string;
+  number: string;
+  complement: string;
+  zipCode: string;
 }
