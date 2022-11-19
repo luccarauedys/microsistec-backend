@@ -26,6 +26,10 @@ const AddressSchema = new Schema({
     lowercase: true,
     required: true,
   },
+  complement: {
+    type: String,
+    lowercase: true,
+  },
 });
 
 const PropertySchema = new Schema({

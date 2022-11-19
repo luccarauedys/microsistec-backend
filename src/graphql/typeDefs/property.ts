@@ -2,7 +2,7 @@ import { gql } from "apollo-server";
 
 export const propertyTypeDefs = gql`
   extend type Query {
-    properties(input: PropertiesInput): [Property!]!
+    properties(type: PropertyType): [Property!]!
   }
 
   extend type Mutation {
@@ -27,6 +27,7 @@ export const propertyTypeDefs = gql`
     city: String!
     street: String!
     number: String!
+    complement: String!
   }
 
   input AddressInput {
@@ -35,6 +36,7 @@ export const propertyTypeDefs = gql`
     city: String
     street: String
     number: String
+    complement: String
   }
 
   input PropertiesInput {
@@ -46,6 +48,6 @@ export const propertyTypeDefs = gql`
   input CreatePropertyInput {
     type: PropertyType!
     address: AddressInput!
-    ownersIds: [String]!
+    ownersIds: [String!]!
   }
 `;

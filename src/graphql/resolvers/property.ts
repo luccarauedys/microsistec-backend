@@ -1,31 +1,33 @@
 import { Property } from "../../models/property";
+import { IProperty } from "../../interfaces/property";
+import { ValidationError } from "apollo-server";
+import { Client } from "../../models/client";
 
-interface PropertiesArgs {
-  input: {
-    type?: "casa" | "apartamento";
-    address?: {
-      zipCode?: string;
-      state?: string;
-      city?: string;
-      street?: string;
-      number?: string;
-    };
-    ownersIds?: string[];
-  };
-}
-
-const properties = async (_: any, args: PropertiesArgs) => {
-  // TODO: Implementar lógica para buscar imóveis
-  return [];
+const properties = async (_: any, { type = "" }: { type: "casa" | "apartamento" | "" }) => {
+  if (type) return await Property.find({ type });
+  return await Property.find();
 };
 
-const createProperty = async (_: any, { input: { type, address, ownersIds } }: PropertiesArgs) => {
+const createProperty = async (_: any, { input }: { input: IProperty }) => {
+  const { type, address, ownersIds } = input;
+
+  if (ownersIds.length === 0) throw new ValidationError("You must inform the property owner(s).");
+
   const property = new Property({ type, address, ownersIds });
   await property.save();
+
   return property;
 };
 
 export const propertyResolvers = {
   Query: { properties },
+
   Mutation: { createProperty },
+
+  Property: {
+    owners: ({ ownersIds }: IProperty) => {
+      const getOwner = async (id: string) => await Client.findById(id);
+      return ownersIds.map((ownerId) => getOwner(ownerId));
+    },
+  },
 };

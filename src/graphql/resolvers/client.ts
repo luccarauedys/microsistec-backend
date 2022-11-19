@@ -19,8 +19,8 @@ const clients = async (_: any, { name = "" }: { name: string }) => {
 };
 
 const createClient = async (_: any, { input: { name, contacts } }: CreateClientArgs) => {
-  if (name.length === 0) throw new ValidationError("name is required");
-  if (contacts.length === 0) throw new ValidationError("at least one contact must be provided");
+  if (name.length === 0) throw new ValidationError("Name is required.");
+  if (contacts.length === 0) throw new ValidationError("At least one contact must be provided.");
 
   const client = new Client({ name, contacts });
   await client.save();
