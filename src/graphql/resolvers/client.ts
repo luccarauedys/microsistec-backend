@@ -1,12 +1,7 @@
 import { ValidationError } from "apollo-server";
 import { Client } from "../../models/client";
-
-interface CreateClientArgs {
-  input: {
-    name: string;
-    contacts: { type: "telefone" | "email"; contact: string }[];
-  };
-}
+import { Property } from "../../models/property";
+import { IClient } from "../../interfaces/client";
 
 const client = async (_: any, { id }: { id: string }) => {
   return await Client.findById(id);
@@ -18,7 +13,9 @@ const clients = async (_: any, { name = "" }: { name: string }) => {
   return await Client.find({ name: regex });
 };
 
-const createClient = async (_: any, { input: { name, contacts } }: CreateClientArgs) => {
+const createClient = async (_: any, { input }: { input: IClient }) => {
+  const { name, contacts } = input;
+
   if (name.length === 0) throw new ValidationError("Name is required.");
   if (contacts.length === 0) throw new ValidationError("At least one contact must be provided.");
 
@@ -30,5 +27,12 @@ const createClient = async (_: any, { input: { name, contacts } }: CreateClientA
 
 export const clientResolvers = {
   Query: { client, clients },
+
   Mutation: { createClient },
+
+  Client: {
+    properties: async (client: IClient) => {
+      return Property.find({ ownersIds: client.id });
+    },
+  },
 };
